@@ -7,11 +7,14 @@ import NewsCard from "./components/NewsCard/NewsCard";
 import axios from "axios";
 import Pagination from "./components/Pagination/Pagination";
 import NotFound from "./components/Error/404";
+import SomethingWentWrong from "./components/Error/SomethingWentWrong";
+
 
 function App() {
   const [search, setSearch] = useState("");
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchValidation, setSearchValidation] = useState("");
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [NewsPerPage, setNewsPerPage] = useState(10);
@@ -33,28 +36,31 @@ function App() {
 
   const fetchNews = async() => {
     setLoading(true);
+    setSearchValidation("");
     setError("");
     let cachedNews = getCachedNews(search);
-    console.log(cachedNews, "News is cached")
     if (!cachedNews) {
-      console.log(cachedNews, "News is not cached");
       if (typeof cancelToken !== typeof undefined) {
         cancelToken.current?.cancel();
       }
       cancelToken.current = axios.CancelToken.source();
       try {
         NewsApi.searchParams.append("q", search)
-        console.log("Fetching news from API", search, NewsApi.toString());
     const response = await axios.get(NewsApi.toString() , {
       cancelToken: cancelToken.current.token
     });
     cachedNews = response.data.articles;
     setCachedNews(search, cachedNews);
-      } catch (error) {
-        console.log(error);
+    setNews(cachedNews);
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log("Request cancelled");
+    }else {
+      setError("Something went wrong");
+      console.log(error) 
+        }
       }
   }
-    setNews(cachedNews);
     setLoading(false);
     setCurrentPage(1);
   }
@@ -67,33 +73,30 @@ function App() {
     if (search[0]?.length > 2) {
     fetchNews();
     } else {
-    setError(`Please enter ${3 - (search[0]?.length || 0) } more characters`);
+    setSearchValidation(`Please enter ${3 - (search[0]?.length || 0) } more characters`);
     }
-  },[search, error])
+  }, [search, searchValidation])
 
 
   return (
     <div>
       <Navbar />
       <div className="container flex">
-        <Searchbar error={error} setSearch={setSearch}  fetchNews={fetchNews} />
+        <Searchbar error={searchValidation} setSearch={setSearch}  fetchNews={fetchNews} />
       </div>
       <div className="container flex flex-col">
         <div className="news-container">
-        {loading ? 
+        {error ? 
+        <SomethingWentWrong /> : 
+        loading ? 
         <Loading /> :
         currentNews?.length === 0 ?
         <NotFound /> :
         <>
         <Pagination postsPerPage={NewsPerPage} totalPosts={news?.length} setCurrentPage={setCurrentPage} currentPage={currentPage} />
-            {currentNews?.map(({ title, description, url, urlToImage  }) => (
-          <NewsCard article={{
-            title,
-            description,
-            url,
-            urlToImage,
-          }} />
-        ))}
+            {currentNews?.map(({ title, description, url, urlToImage  } , index) => (
+          <NewsCard article={{ title, description, url, urlToImage}}  key={index} />
+            ))}
         <Pagination postsPerPage={NewsPerPage} totalPosts={news?.length} setCurrentPage={setCurrentPage} currentPage={currentPage} />
           </>
         }
