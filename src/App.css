@@ -13,9 +13,36 @@ a {
   margin: 0 auto;
 }
 
+.margin {
+  margin: 1rem 0;
+}
+
 .flex {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.news-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+}
+
+@media screen and (max-width: 550px) {
+  .news-container {
+    flex-direction: column;
+  }
 }

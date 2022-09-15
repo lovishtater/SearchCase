@@ -47,3 +47,14 @@
     outline: none;
     color: black;
 }
+
+.error-label {
+    color: red;
+    font-size: 10px;
+}
+
+@media screen and (max-width: 445px) {
+    .search-box {
+        width: 90%;
+    }
+}

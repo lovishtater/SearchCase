@@ -1,12 +1,13 @@
-import React from "react";
 import "./searchbar.css"
-const Searchbar = () => {
 
-  const [search, setSearch] = React.useState("");
-
-  const debounce = (func : Function, wait : number) => {
-    console.log(func, wait);
-    let timeout : number | NodeJS.Timeout | undefined;
+const Searchbar = ({ setSearch, fetchNews, error} :
+   {
+      setSearch: (search: string) => void,
+      fetchNews: () => void,
+      error: string
+   }) => {
+  const debounce = (func: Function, wait: number) => {
+    let timeout: number | NodeJS.Timeout | undefined;
     return (...value: any[]) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
@@ -14,15 +15,24 @@ const Searchbar = () => {
       }, wait);
     };
   };
+
   const handleChange = debounce((value: string) => {
     setSearch(value);
   }, 1000);
-
-
   return (
+    <div className="searchbar">
     <div className="search-box">
-      <input className="search-input" type="text" placeholder="Search something.." onChange={(e) => handleChange(e.target.value)} />
-        <button className="search-btn"><i className="fas fa-search"></i></button>
+      <input 
+      className="search-input" 
+      type="text" 
+      placeholder="Search for news" 
+      onChange={(e) => handleChange(e.target.value.toLowerCase())} />
+    <button 
+    className="search-btn"
+    onClick={fetchNews}>
+      <i className="fas fa-search"></i></button>
+    </div>
+    <p className="error-label">{error}</p>
     </div>
   );
 };
