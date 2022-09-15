@@ -9,11 +9,14 @@ import Pagination from "./components/Pagination/Pagination";
 import NotFound from "./components/Error/404";
 import SomethingWentWrong from "./components/Error/SomethingWentWrong";
 
+import SomethingWentWrong from "./components/Error/SomethingWentWrong";
+
 
 function App() {
   const [search, setSearch] = useState("");
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchValidation, setSearchValidation] = useState("");
   const [searchValidation, setSearchValidation] = useState("");
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,6 +90,8 @@ function App() {
       <div className="container flex flex-col">
         <div className="news-container">
         {error ? 
+        <SomethingWentWrong /> : 
+        error ? 
         <SomethingWentWrong /> : 
         loading ? 
         <Loading /> :
