@@ -21,7 +21,7 @@ function App() {
   const [NewsPerPage, setNewsPerPage] = useState(10);
   const queryCache = useRef<any>({}); 
   const cancelToken = useRef<any>(null);
-  const NewsApi = new URL("https://newsapi.org/v2/everything?apiKey=85c93dbd7df14f07816179d6037e0db8")
+  const NewsApi = new URL("https://api.newscatcherapi.com/v2/search")
 
   const getCachedNews = (search : string) => {
     if (queryCache.current[search]) {
@@ -48,8 +48,12 @@ function App() {
       try {
         NewsApi.searchParams.append("q", search)
     const response = await axios.get(NewsApi.toString() , {
-      cancelToken: cancelToken.current.token
-    });
+      cancelToken: cancelToken.current.token,
+      headers: {
+        "x-api-key": "Ciy8wN3sKTwkhXnEs67z6XNrKkRQLaf6iipYhtMbo-E",
+      },
+    },
+    );
     cachedNews = response.data.articles;
     setCachedNews(search, cachedNews);
     setNews(cachedNews);
@@ -97,8 +101,8 @@ function App() {
         <NotFound /> :
         <>
         <Pagination postsPerPage={NewsPerPage} totalPosts={news?.length} setCurrentPage={setCurrentPage} currentPage={currentPage} />
-            {currentNews?.map(({ title, description, url, urlToImage  } , index) => (
-          <NewsCard article={{ title, description, url, urlToImage}}  key={index} />
+            {currentNews?.map((article , index) => (
+              <NewsCard article={article}  key={index} />
             ))}
         <Pagination postsPerPage={NewsPerPage} totalPosts={news?.length} setCurrentPage={setCurrentPage} currentPage={currentPage} />
           </>
