@@ -56,16 +56,16 @@ function App() {
     );
     cachedNews = response.data.articles;
     setCachedNews(search, cachedNews);
-    setNews(cachedNews);
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log("Request cancelled");
     }else {
       setError("Something went wrong");
       console.log(error) 
-        }
-      }
+    }
   }
+}
+    setNews(cachedNews);
     setLoading(false);
     setCurrentPage(1);
   }
