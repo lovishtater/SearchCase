@@ -98,11 +98,21 @@ function App() {
         !currentNews ?
         <NotFound /> :
         <>
-        <Pagination postsPerPage={NewsPerPage} totalPosts={news?.length} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+        <Pagination 
+        postsPerPage={NewsPerPage} 
+        setPostsPerPage={setNewsPerPage}
+        totalPosts={news?.length} 
+        setCurrentPage={setCurrentPage} 
+        currentPage={currentPage} />
             {currentNews?.map((article , index) => (
               <NewsCard article={article}  key={index} />
             ))}
-        <Pagination postsPerPage={NewsPerPage} totalPosts={news?.length} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+        <Pagination 
+        postsPerPage={NewsPerPage} 
+        setPostsPerPage={setNewsPerPage}
+        totalPosts={news?.length} 
+        setCurrentPage={setCurrentPage} 
+        currentPage={currentPage} />
           </>
         }
           </div>

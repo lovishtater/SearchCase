@@ -8,14 +8,18 @@
     list-style: none;
 }
 
+.page-flex {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .page-box{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0;
-    padding: 0;
-    list-style: none;
 }
 
 .page-button {
@@ -51,4 +55,20 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.page-select {
+    width: 40px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.page-select:focus {
+    outline: none;
+    /* border: 1px solid #1f7ae0; */
 }
