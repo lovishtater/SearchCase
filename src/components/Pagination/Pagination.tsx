@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './pagination.css';
-const Pagination = ({ postsPerPage, totalPosts, currentPage , setCurrentPage }: any ) => {
+
+
+const Pagination = ({ postsPerPage, totalPosts, currentPage , setCurrentPage }: {
+    postsPerPage: number;
+    totalPosts: number;
+    currentPage: number;
+    setCurrentPage: (currentPage: number) => void;
+} ) => {
     const pageNumbers = Math.ceil(totalPosts / postsPerPage);
     const [error, setError] = useState("");
+
     const setPage = (val : number) => {
         if (val > 0 && val <= pageNumbers) {
             setError("");
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+            // window.scrollTo({ top: 0, behavior: 'smooth' })
             setCurrentPage(val);
         } else {
             setError("Out of range");
