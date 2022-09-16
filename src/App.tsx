@@ -90,8 +90,7 @@ function App() {
       <div className="container flex">
         <Searchbar error={searchValidation} setSearch={setSearch}  fetchNews={fetchNews} />
       </div>
-      <div className="container flex flex-col">
-        <div className="news-container">
+      <div className="container flex flex-col news-container">
         {error ? 
         <SomethingWentWrong /> : 
         loading ? 
@@ -116,7 +115,6 @@ function App() {
         currentPage={currentPage} />
           </>
         }
-          </div>
       </div>
       <Footer />
     </div>

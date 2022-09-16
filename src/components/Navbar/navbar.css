@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    margin: 0 100px;
+    /* margin: 0 100px; */
 }
 
  .navbar img {
@@ -34,7 +34,6 @@
 
 @media screen and (max-width: 750px) {
     .navbar {
-        margin-bottom: 50px ;
         padding-top: 1rem;
         flex-direction: column;
         justify-content: space-around;
