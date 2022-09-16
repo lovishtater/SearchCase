@@ -69,6 +69,7 @@ function App() {
     setLoading(false);
     setCurrentPage(1);
   }
+
   const getIndexOfLastNews = currentPage * NewsPerPage;
   const getIndexOfFirstNews = getIndexOfLastNews - NewsPerPage;
   const currentNews = news?.slice(getIndexOfFirstNews, getIndexOfLastNews);
@@ -80,6 +81,7 @@ function App() {
     setSearchValidation(`Please enter ${3 - (search?.length) } more characters`);
     }
   }, [search, searchValidation])
+
 
   return (
     <div>
