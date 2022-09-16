@@ -8,6 +8,7 @@ import axios, { CancelTokenSource } from "axios";
 import Pagination from "./components/Pagination/Pagination";
 import NotFound from "./components/Error/404";
 import SomethingWentWrong from "./components/Error/SomethingWentWrong";
+import Footer from "./components/Footer/Footer";
 
 
 
@@ -117,6 +118,7 @@ function App() {
         }
           </div>
       </div>
+      <Footer />
     </div>
   );
 }
