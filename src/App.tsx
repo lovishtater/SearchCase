@@ -4,7 +4,7 @@ import "./App.css";
 import Loading from "./components/Loading/Loading";
 import Searchbar from "./components/Searchbar/Searchbar";
 import NewsCard from "./components/NewsCard/NewsCard";
-import axios from "axios";
+import axios, { CancelTokenSource } from "axios";
 import Pagination from "./components/Pagination/Pagination";
 import NotFound from "./components/Error/404";
 import SomethingWentWrong from "./components/Error/SomethingWentWrong";
@@ -12,7 +12,7 @@ import SomethingWentWrong from "./components/Error/SomethingWentWrong";
 
 
 function App() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("India");
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchValidation, setSearchValidation] = useState("");
@@ -20,7 +20,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [NewsPerPage, setNewsPerPage] = useState(10);
   const queryCache = useRef<any>({}); 
-  const cancelToken = useRef<any>(null);
+  const cancelToken = useRef<CancelTokenSource | undefined>(undefined);
   const NewsApi = new URL("https://api.newscatcherapi.com/v2/search")
 
   const getCachedNews = (search : string) => {
@@ -69,19 +69,17 @@ function App() {
     setLoading(false);
     setCurrentPage(1);
   }
-
   const getIndexOfLastNews = currentPage * NewsPerPage;
   const getIndexOfFirstNews = getIndexOfLastNews - NewsPerPage;
   const currentNews = news?.slice(getIndexOfFirstNews, getIndexOfLastNews);
 
   useEffect(()=>{
-    if (search[0]?.length > 2) {
+    if (search?.length > 2) {
     fetchNews();
     } else {
-    setSearchValidation(`Please enter ${3 - (search[0]?.length || 0) } more characters`);
+    setSearchValidation(`Please enter ${3 - (search?.length) } more characters`);
     }
   }, [search, searchValidation])
-
 
   return (
     <div>
@@ -93,11 +91,9 @@ function App() {
         <div className="news-container">
         {error ? 
         <SomethingWentWrong /> : 
-        error ? 
-        <SomethingWentWrong /> : 
         loading ? 
         <Loading /> :
-        currentNews?.length === 0 ?
+        !currentNews ?
         <NotFound /> :
         <>
         <Pagination postsPerPage={NewsPerPage} totalPosts={news?.length} setCurrentPage={setCurrentPage} currentPage={currentPage} />

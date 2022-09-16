@@ -8,7 +8,7 @@ const Searchbar = ({ setSearch, fetchNews, error} :
    }) => {
   const debounce = (func: Function, wait: number) => {
     let timeout: number | NodeJS.Timeout | undefined;
-    return (...value: any[]) => {
+    return (...value: string[]) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         func(value);
@@ -17,8 +17,9 @@ const Searchbar = ({ setSearch, fetchNews, error} :
   };
 
   const handleChange = debounce((value: string) => {
-    setSearch(value);
+    setSearch(value[0]);
   }, 1000);
+
   return (
     <div className="searchbar">
     <div className="search-box">
